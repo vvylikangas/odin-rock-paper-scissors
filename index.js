@@ -1,49 +1,56 @@
+const btnCont = document.getElementById('btn-container');
+const rockButton = document.getElementById('rock-btn');
+const paperButton = document.getElementById('paper-btn');
+const scissorsButton = document.getElementById('scissors-btn');
+const resultElement = document.getElementById('result');
+const scoreElement = document.getElementById('scoreboard');
+
+let humanChoice;
+let computerChoice;
+
 function getComputerChoice() {
   const rpsArr = ['rock', 'paper', 'scissors'];
   const rndIdx = Math.floor(Math.random() * rpsArr.length);
   return rpsArr[rndIdx];
 }
 
-function getHumanChoice() {
-  let humanChoice = prompt('Type "rock", "paper" or "scissors": ');
-  return humanChoice;
-}
-
 function playGame() {
-  let rounds = 1;
   let humanScore = 0;
   let computerScore = 0;
+
+  btnCont.addEventListener('click', (event) => {
+    if (humanScore === 5 || computerScore === 5) return;
+
+    humanChoice = event.target.textContent;
+    computerChoice = getComputerChoice();
+    playRound(humanChoice, computerChoice);
+
+    if (humanScore === 5) {
+      resultElement.innerText = 'You win!';
+    } else if (computerScore === 5) {
+      resultElement.innerText = 'Computer wins!';
+    }
+  });
 
   function playRound(humanChoice, computerChoice) {
     let human = humanChoice.toLowerCase();
     let computer = computerChoice;
-
-    console.log(`Round: ${rounds}`);
 
     if (
       (human === 'paper' && computer === 'scissors') ||
       (human === 'scissors' && computer === 'rock') ||
       (human === 'rock' && computer === 'paper')
     ) {
-      console.log(`You lose! ${computer} beats ${human}`);
+      resultElement.innerText = `You lose! ${computer} beats ${human}`;
       computerScore += 1;
     } else if (human === computer) {
-      console.log("It's a draw!");
+      resultElement.innerText = "It's a draw!";
     } else {
-      console.log(`You win! ${human} beats ${computer}`);
+      resultElement.innerText = `You win! ${human} beats ${computer}`;
       humanScore += 1;
     }
+    scoreElement.innerText = `Player: ${humanScore} - Computer ${computerScore}`;
   }
-
-  while (rounds <= 5) {
-    let humanChoice = getHumanChoice();
-    let computerChoice = getComputerChoice();
-
-    playRound(humanChoice, computerChoice);
-    rounds += 1;
-  }
-
-  console.log(`Final score - You: ${humanScore}, Computer: ${computerScore}`);
 }
 
 playGame();
