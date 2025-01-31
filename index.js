@@ -4,9 +4,16 @@ const paperButton = document.getElementById('paper-btn');
 const scissorsButton = document.getElementById('scissors-btn');
 const resultElement = document.getElementById('result');
 const scoreElement = document.getElementById('scoreboard');
+const resetButton = document.getElementById('reset');
 
 let humanChoice;
 let computerChoice;
+
+resetButton.addEventListener('click', (event) => {
+  playGame();
+  scoreElement.innerText = 'Player: 0 - Computer: 0';
+  resultElement.innerText = '';
+});
 
 function getComputerChoice() {
   const rpsArr = ['rock', 'paper', 'scissors'];
@@ -19,16 +26,20 @@ function playGame() {
   let computerScore = 0;
 
   btnCont.addEventListener('click', (event) => {
-    if (humanScore === 5 || computerScore === 5) return;
+    if (event.target.tagName === 'BUTTON') {
+      if (humanScore === 5 || computerScore === 5) return;
 
-    humanChoice = event.target.textContent;
-    computerChoice = getComputerChoice();
-    playRound(humanChoice, computerChoice);
+      humanChoice = event.target.textContent;
+      computerChoice = getComputerChoice();
+      playRound(humanChoice, computerChoice);
 
-    if (humanScore === 5) {
-      resultElement.innerText = 'You win!';
-    } else if (computerScore === 5) {
-      resultElement.innerText = 'Computer wins!';
+      if (humanScore === 5) {
+        resultElement.innerText = 'You win the game!';
+        resetButton.removeAttribute('disabled');
+      } else if (computerScore === 5) {
+        resultElement.innerText = 'Computer wins the game!';
+        resetButton.removeAttribute('disabled');
+      }
     }
   });
 
