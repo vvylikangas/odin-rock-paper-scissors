@@ -12,7 +12,8 @@ let computerChoice;
 resetButton.addEventListener('click', (event) => {
   playGame();
   scoreElement.innerText = 'Player: 0 - Computer: 0';
-  resultElement.innerText = '';
+  resultElement.innerText = 'Make your choice!';
+  resetButton.setAttribute('disabled', '');
 });
 
 function getComputerChoice() {
@@ -55,7 +56,7 @@ function playGame() {
       resultElement.innerText = `You lose! ${computer} beats ${human}`;
       computerScore += 1;
     } else if (human === computer) {
-      resultElement.innerText = "It's a draw!";
+      resultElement.innerText = `${human} vs. ${computer}: It's a draw!`;
     } else {
       resultElement.innerText = `You win! ${human} beats ${computer}`;
       humanScore += 1;
